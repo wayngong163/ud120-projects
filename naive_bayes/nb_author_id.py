@@ -1,3 +1,9 @@
+
+# coding: utf-8
+
+# In[44]:
+
+
 #!/usr/bin/python
 
 """ 
@@ -22,12 +28,28 @@ from email_preprocess import preprocess
 features_train, features_test, labels_train, labels_test = preprocess()
 
 
+# In[45]:
 
 
-#########################################################
-### your code goes here ###
+t0 = time()
+
+from sklearn.naive_bayes import GaussianNB
+clf = GaussianNB()
+clf.fit(features_train, labels_train)
+
+print "training time:", round(time()-t0, 3), "s"
 
 
-#########################################################
+# In[46]:
 
+
+pred = clf.predict(features_test)
+print "prediction time:", round(time()-t0, 3), "s"
+
+
+# In[47]:
+
+
+from sklearn.metrics import accuracy_score
+print "accuracy:%f" % accuracy_score(pred, labels_test)
 

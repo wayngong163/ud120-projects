@@ -29,7 +29,7 @@ target, features = targetFeatureSplit( data )
 from sklearn.cross_validation import train_test_split
 feature_train, feature_test, target_train, target_test = train_test_split(features, target, test_size=0.5, random_state=42)
 train_color = "b"
-test_color = "b"
+test_color = "r"
 
 
 
@@ -37,6 +37,20 @@ test_color = "b"
 ### Please name it reg, so that the plotting code below picks it up and 
 ### plots it correctly. Don't forget to change the test_color above from "b" to
 ### "r" to differentiate training points from test points.
+
+from time import time
+from sklearn.linear_model import LinearRegression
+t0 = time()
+reg = LinearRegression()
+reg.fit(feature_train, target_train)
+t1 = time()
+print "training time: %.2f s" % (t1-t0)
+print "slope:\t", reg.coef_
+print "intercept:\t", reg.intercept_
+
+### score
+print "score on training data:\t%.4f" % (reg.score(feature_train, target_train)*1.00)
+print "score on test data:\t%.4f" %(reg.score(feature_test, target_test)*1.00)
 
 
 
@@ -64,6 +78,12 @@ try:
     plt.plot( feature_test, reg.predict(feature_test) )
 except NameError:
     pass
+reg.fit(feature_test, target_test)
+plt.plot(feature_train, reg.predict(feature_train), color="b")
+print "slope:\t", reg.coef_
+print "intercept:\t", reg.intercept_
+print "score on training data:\t%.4f" % (reg.score(feature_train, target_train)*1.00)
+print "score on test data:\t%.4f" %(reg.score(feature_test, target_test)*1.00)
 plt.xlabel(features_list[1])
 plt.ylabel(features_list[0])
 plt.legend()
